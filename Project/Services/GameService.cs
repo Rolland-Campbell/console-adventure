@@ -94,15 +94,29 @@ Commands:
     ///<summary>When taking an item be sure the item is in the current room before adding it to the player inventory, Also don't forget to remove the item from the room it was picked up in</summary>
     public void TakeItem(string itemName)
     {
-      var roomItems = _game.CurrentRoom.Items;
-      var playerInventory = _game.CurrentPlayer.Inventory;
-
-      foreach (var i in roomItems)
+      Item i = new Item("", ""); //created instance
+      if (_game.CurrentRoom.Items.Count > 0) //checked if items are in room
       {
-        if (i.Name.ToLower().ToString() == itemName)
+        foreach (Item item in _game.CurrentRoom.Items) //iterate through items in game
         {
-          playerInventory.Add(i);
+          if (item.Name == itemName) //compare typed name, with item names in room list.
+          {
+            i = item;
+          }
+          else
+          {
+            Messages.Add("That item is not in this room");
+          }
         }
+        if (i.Name.Length > 1)
+        {
+          _game.CurrentPlayer.Inventory.Add(i); //add item to inventory
+          _game.CurrentRoom.Items.Remove(i); //Remove from room list
+        }
+      }
+      else
+      {
+        Messages.Add("There are no items to take...");
       }
     }
     ///<summary>
@@ -112,7 +126,7 @@ Commands:
     ///</summary>
     public void UseItem(string itemName)
     {
-      throw new System.NotImplementedException();
+
     }
   }
 }

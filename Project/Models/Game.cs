@@ -15,7 +15,7 @@ namespace ConsoleAdventure.Project.Models
       IRoom Room0 = new Room("Room 0", "desc0");
       IRoom Room1 = new Room("Room 1", "desc1");
       IRoom Room2 = new Room("Room 2", "desc2");
-      IRoom Room3 = new Room("Room 3", "desc3");
+      IRoom Room3 = new Traproom("Room 3", "desc3", true);
 
       //Connecting Rooms
       Room0.AddExits("east", Room1);
