@@ -11,15 +11,21 @@ namespace ConsoleAdventure.Project.Models
     public List<Item> Items { get; set; }
     public Dictionary<string, IRoom> Exits { get; set; }
 
-    public void AddExits(IRoom room)
+    public void AddExits(string direction, IRoom room)
     {
-      Exits.Add(room.Name, room);
+      Exits.Add(direction, room);
     }
+    // public void AddItems(Item)
+    // {
+    //   Items.Add();
+    // }
 
     public Room(string name, string description)
     {
       Name = name;
       Description = description;
+      Items = new List<Item>();
+      Exits = new Dictionary<string, IRoom>();
     }
   }
 }
