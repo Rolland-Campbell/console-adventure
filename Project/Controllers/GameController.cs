@@ -15,7 +15,6 @@ namespace ConsoleAdventure.Project.Controllers
     {
       while (true)
       {
-        System.Console.WriteLine("once"); //FIXME make a graphic for game. call template here.
         GetUserInput();
       }
     }
@@ -55,10 +54,16 @@ namespace ConsoleAdventure.Project.Controllers
           break;
         case "take":
           _gameService.TakeItem(option);
+          Console.Clear();
           break;
         case "q":
           Console.Clear();
           Environment.Exit(0);
+          break;
+        case "use":
+          _gameService.UseItem(option);
+          Console.Clear();
+          Print();
           break;
       }
     }
@@ -66,7 +71,18 @@ namespace ConsoleAdventure.Project.Controllers
     //NOTE this should print your messages for the game.
     private void Print()
     {
-      System.Console.WriteLine("test");
+      System.Console.WriteLine(@"                                                    
+ _______  __   __  ______    __    _  ___   __    _  _______  _______  _______ 
+|  _    ||  | |  ||    _ |  |  |  | ||   | |  |  | ||   _   ||       ||       |
+| |_|   ||  | |  ||   | ||  |   |_| ||   | |   |_| ||  |_|  ||_     _||    ___|
+|       ||  |_|  ||   |_||_ |       ||   | |       ||       |  |   |  |   |___ 
+|  _   | |       ||    __  ||  _    ||   | |  _    ||       |  |   |  |    ___|
+| |_|   ||       ||   |  | || | |   ||   | | | |   ||   _   |  |   |  |   |___ 
+|_______||_______||___|  |_||_|  |__||___| |_|  |__||__| |__|  |___|  |_______|
+                Survive Trogdor's Layer of Doooom! and stuff...
+                
+                
+      ");
       foreach (string message in _gameService.Messages)
       {
         Console.WriteLine(message);

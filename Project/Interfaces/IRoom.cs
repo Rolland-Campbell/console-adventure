@@ -10,6 +10,8 @@ namespace ConsoleAdventure.Project.Interfaces
     List<Item> Items { get; set; }
     Dictionary<string, IRoom> Exits { get; set; }
 
+    bool Trapped { get; set; }
+
     void AddExits(string direction, IRoom room);
   }
 }

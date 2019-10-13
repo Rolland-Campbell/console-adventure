@@ -10,6 +10,7 @@ namespace ConsoleAdventure.Project.Models
     public string Description { get; set; }
     public List<Item> Items { get; set; }
     public Dictionary<string, IRoom> Exits { get; set; }
+    public bool Trapped { get; set; }
 
     public void AddExits(string direction, IRoom room)
     {
@@ -20,12 +21,13 @@ namespace ConsoleAdventure.Project.Models
     //   Items.Add();
     // }
 
-    public Room(string name, string description)
+    public Room(string name, string description, bool trapped)
     {
       Name = name;
       Description = description;
       Items = new List<Item>();
       Exits = new Dictionary<string, IRoom>();
+      Trapped = trapped;
     }
   }
 }

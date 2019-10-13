@@ -97,7 +97,7 @@ Commands:
       Item i = new Item("", ""); //created instance
       if (_game.CurrentRoom.Items.Count > 0) //checked if items are in room
       {
-        foreach (Item item in _game.CurrentRoom.Items) //iterate through items in game
+        foreach (Item item in _game.CurrentRoom.Items) //iterate through items in room
         {
           if (item.Name == itemName) //compare typed name, with item names in room list.
           {
@@ -127,6 +127,21 @@ Commands:
     public void UseItem(string itemName)
     {
 
+      Item i = new Item("", "");
+      if (_game.CurrentPlayer.Inventory.Count > 0) //checked if items are in player inv
+      {
+        foreach (Item item in _game.CurrentPlayer.Inventory) //iterate through inv
+        {
+          if (item.Name == itemName) //compare typed name, with items in inv.
+          {
+            i = item;
+          }
+        }
+      }
+      else
+      {
+        Messages.Add("You do not have that item.");
+      }
     }
   }
 }

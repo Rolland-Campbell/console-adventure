@@ -12,10 +12,10 @@ namespace ConsoleAdventure.Project.Models
     public void Setup()
     {
       //Creating Rooms
-      IRoom Room0 = new Room("Room 0", "desc0");
-      IRoom Room1 = new Room("Room 1", "desc1");
-      IRoom Room2 = new Room("Room 2", "desc2");
-      IRoom Room3 = new Traproom("Room 3", "desc3", true);
+      IRoom Room0 = new Room("Cave Enterance", "The front of the cave... what else would it be <grumble>", false);
+      IRoom Room1 = new Room("Some kinda hallway", "it has walls and stuff..you know dungeony looking", false);
+      IRoom Room2 = new Room("Another Hallway!?!?", "it looks kind of like the last hallway.. not very original I would say..", false);
+      IRoom Room3 = new Room("Trogdor's Layer", "You have entered the layer of the mighty Trogdor! Behold his majesticness.. and his big BEEFY arm", true);
 
       //Connecting Rooms
       Room0.AddExits("east", Room1);
@@ -29,7 +29,7 @@ namespace ConsoleAdventure.Project.Models
       Room3.AddExits("west", Room2);
 
       //Add items
-      Item Item1 = new Item("item1", "itemdesc1");
+      Item Item1 = new Item("Nun-Chuck Gun", "Hmm..this is a most potent weapon..umm yeah");
 
       //Item locations
       Room0.Items.Add(Item1);
@@ -47,7 +47,18 @@ namespace ConsoleAdventure.Project.Models
     //FIXME change template to show graphic (will show at start screen)
     public void GetTemplate()
     {
-      System.Console.WriteLine("Welcome weary traveller");
+      System.Console.WriteLine(@"      
+ _______  __   __  ______    __    _  ___   __    _  _______  _______  _______ 
+|  _    ||  | |  ||    _ |  |  |  | ||   | |  |  | ||   _   ||       ||       |
+| |_|   ||  | |  ||   | ||  |   |_| ||   | |   |_| ||  |_|  ||_     _||    ___|
+|       ||  |_|  ||   |_||_ |       ||   | |       ||       |  |   |  |   |___ 
+|  _   | |       ||    __  ||  _    ||   | |  _    ||       |  |   |  |    ___|
+| |_|   ||       ||   |  | || | |   ||   | | | |   ||   _   |  |   |  |   |___ 
+|_______||_______||___|  |_||_|  |__||___| |_|  |__||__| |__|  |___|  |_______|
+                Survive Trogdor's Layer of Doooom! and stuff...
+
+
+  ");
     }
   }
 }
