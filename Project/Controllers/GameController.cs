@@ -22,8 +22,8 @@ namespace ConsoleAdventure.Project.Controllers
     //NOTE Gets the user input, calls the appropriate command, and passes on the option if needed.
     public void GetUserInput()
     {
-      Console.WriteLine(@"What would you like to do?
-[type h for Help, q to Quit]
+      Console.WriteLine(@"What would you like to do? Make a choice already, I am getting bored...
+[Type l to look around, type h for Help, q to Quit]
       ");
       string input = Console.ReadLine().ToLower() + " ";
       string command = input.Substring(0, input.IndexOf(" "));
@@ -55,6 +55,7 @@ namespace ConsoleAdventure.Project.Controllers
         case "take":
           _gameService.TakeItem(option);
           Console.Clear();
+          Print();
           break;
         case "q":
           Console.Clear();
@@ -64,6 +65,26 @@ namespace ConsoleAdventure.Project.Controllers
           _gameService.UseItem(option);
           Console.Clear();
           Print();
+          break;
+        case "r":
+          _gameService.Reset();
+          Console.Clear();
+          break;
+        default:
+          Console.Clear();
+          System.Console.WriteLine(@"
+That is not a command 
+
+Commands:
+    i: Show your current inventory.
+    l: Look around for a description of the current room.
+    take (item name): Picks up item with that name.
+    go (direction [North, East, West, South]): Moves you to the next room.
+    use (item name): Use the item from your inventory.
+    q: Quit the game.
+    r: Restarts the game.
+    
+    ");
           break;
       }
     }
@@ -79,9 +100,10 @@ namespace ConsoleAdventure.Project.Controllers
 |  _   | |       ||    __  ||  _    ||   | |  _    ||       |  |   |  |    ___|
 | |_|   ||       ||   |  | || | |   ||   | | | |   ||   _   |  |   |  |   |___ 
 |_______||_______||___|  |_||_|  |__||___| |_|  |__||__| |__|  |___|  |_______|
-                Survive Trogdor's Layer of Doooom! and stuff...
+               
+                Survive Trogdor's Lair of Doooom! and stuff...
                 
-                
+
       ");
       foreach (string message in _gameService.Messages)
       {

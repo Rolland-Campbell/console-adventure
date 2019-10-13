@@ -21,19 +21,45 @@ namespace ConsoleAdventure.Project
       {
         _game.CurrentRoom = _game.CurrentRoom.Exits[direction];
         Messages.Add($"You have moved to {_game.CurrentRoom.Name}");
+        Messages.Add(_game.CurrentRoom.Description);
+        var items = _game.CurrentRoom.Items;
+        string templateItem = "The following items are in the room: \n";
+        foreach (var i in items)
+        {
+          templateItem += $"{i.Name}: {i.Description} \n";
+        }
+        Messages.Add(templateItem);
+        var exits = _game.CurrentRoom.Exits;
+        string template = "This room has the following exits: \n";
+        foreach (var e in exits)
+        {
+          template += $"{e.Key} \n";
+        }
+        Messages.Add(template);
       }
-      else Messages.Add("Didn't move");
+      else
+      {
+        Messages.Add("You cannot go that way, try reading the exits or something... \n");
+        var exits = _game.CurrentRoom.Exits;
+        string template = "This room has the following exits: \n";
+        foreach (var e in exits)
+        {
+          template += $"{e.Key} \n";
+        }
+        Messages.Add(template);
+      }
     }
     public void Help()
     {
       string help = @"
 Commands:
     i: Show your current inventory.
-    l: Look around for s description of the current room.
-    get (item name): Picks up item with that name.
+    l: Look around for a description of the current room.
+    take (item name): Picks up item with that name.
     go (direction [North, East, West, South]): Moves you to the next room.
     use (item name): Use the item from your inventory.
     q: Quit the game.
+    r: Restarts the game.
       ";
       Messages.Add(help);
     }
@@ -51,13 +77,14 @@ Commands:
       }
       else
       {
-        Messages.Add("You have nothing in your inventory.");
+        Messages.Add("You have nothing in your inventory. \n");
       }
       Messages.Add(template);
     }
 
     public void Look()
     {
+      Messages.Add($"{_game.CurrentRoom.Name} \n");
       Messages.Add($"{_game.CurrentRoom.Description} \n");
       var exits = _game.CurrentRoom.Exits;
       string template = "This room has the following exits: \n";
@@ -84,7 +111,8 @@ Commands:
     ///</summary>
     public void Reset()
     {
-      throw new System.NotImplementedException();
+      _game.CurrentPlayer.Inventory.Clear();
+      _game.Setup();
     }
 
     public void Setup(string playerName)
@@ -105,18 +133,19 @@ Commands:
           }
           else
           {
-            Messages.Add("That item is not in this room");
+            Messages.Add("That item is not in this room \n"); //if typed name is incorrect
           }
         }
         if (i.Name.Length > 1)
         {
           _game.CurrentPlayer.Inventory.Add(i); //add item to inventory
+          Messages.Add($"You picked up a {i.Name} \n");
           _game.CurrentRoom.Items.Remove(i); //Remove from room list
         }
       }
       else
       {
-        Messages.Add("There are no items to take...");
+        Messages.Add("There are no items to take... \n");
       }
     }
     ///<summary>
@@ -126,9 +155,8 @@ Commands:
     ///</summary>
     public void UseItem(string itemName)
     {
-
       Item i = new Item("", "");
-      if (_game.CurrentPlayer.Inventory.Count > 0) //checked if items are in player inv
+      if (_game.CurrentPlayer.Inventory.Count > 0) //check if inv has items
       {
         foreach (Item item in _game.CurrentPlayer.Inventory) //iterate through inv
         {
@@ -136,12 +164,45 @@ Commands:
           {
             i = item;
           }
+          if (itemName != item.Name)
+          {
+            Messages.Add($"What is a {itemName}? You do not have one of those..\n");
+          }
+        }
+        if (i.Name == "nunchuckgun")
+        {
+          _game.CurrentPlayer.Inventory.Remove(i);
+          Messages.Add($"You use your {i.Name}! \n");
+          Messages.Add($"Your {i.Name} falls to the floor... \n");
+          _game.CurrentRoom.Items.Add(i);
+        }
+        if (i.Name == "grumblecakes")
+        {
+          _game.CurrentPlayer.Inventory.Remove(i); //Remove from inv
+          Messages.Add($"You use your {i.Name}! \n");
+          if (_game.CurrentRoom.Trapped)
+          {
+            Messages.Add($"The mighty Trogdor is hit with {i.Description}, Trogdor winces in pain, then gives you a thumbs-up with his big BEEFY arm... and flies away.\n");
+            Messages.Add("You probably thought Trogdor would be killed...of course Trogdor can not die.. he is Trogdor! \n");
+            Messages.Add(@"
+            
+     )   )                    (       )   ________ 
+  ( /(( /(          (  (      )\ ) ( /(  |   /   / 
+  )\())\())    (    )\))(   '(()/( )\()) |  /|  /  
+ ((_)((_)\     )\  ((_)()\ )  /(_)|(_)\  | / | /   
+__ ((_)((_) _ ((_) _(())\_)()(_))  _((_) |/  |/    
+\ \ / / _ \| | | | \ \((_)/ /|_ _|| \| |(   (      
+ \ V / (_) | |_| |  \ \/\/ /  | | | .` |)\  )\     
+  |_| \___/ \___/    \_/\_/  |___||_|\_((_)((_)    
+                                                   
+
+            ");
+            Messages.Add("Not very original or great, or fun in any way...Oh well.. \n");
+            Messages.Add("Type q to quit, or r to restart. \n");
+          }
         }
       }
-      else
-      {
-        Messages.Add("You do not have that item.");
-      }
+      else Messages.Add("Your inventory is empty. \n"); //message if inventory is empty
     }
   }
 }

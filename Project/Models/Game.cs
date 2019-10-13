@@ -12,10 +12,12 @@ namespace ConsoleAdventure.Project.Models
     public void Setup()
     {
       //Creating Rooms
-      IRoom Room0 = new Room("Cave Enterance", "The front of the cave... what else would it be <grumble>", false);
-      IRoom Room1 = new Room("Some kinda hallway", "it has walls and stuff..you know dungeony looking", false);
-      IRoom Room2 = new Room("Another Hallway!?!?", "it looks kind of like the last hallway.. not very original I would say..", false);
-      IRoom Room3 = new Room("Trogdor's Layer", "You have entered the layer of the mighty Trogdor! Behold his majesticness.. and his big BEEFY arm", true);
+      IRoom Room0 = new Room("Cave Enterance", "You are at the front of the cave... where else would you be <grumble>", false);
+      IRoom Room1 = new Room("some kinda hallway \n", "it has walls and stuff..you know dungeony looking.. maybe with some kinda... bats and stuff \n", false);
+      IRoom Room2 = new Room("Another Hallway!?!? \n", "it looks kind of like the last hallway.. not very original I would say..who wrote this?? \n", false);
+      IRoom Death = new Room("The Room of Doooom!! \n", "This room is filled with Trogdor's mighty burninating flame!! \n \n You are burninated!! \n \n You died...press r to restart \n", false);
+      IRoom Room3 = new Room("Oh look another dungeony hallway \n", "wow more bats... and is THAT a spider... how original... \n", false);
+      IRoom Trogdor = new Room("Trogdor's Lair \n", "You have entered the lair of the mighty Trogdor! Behold his majesticness.. and his big BEEFY arm \n", true);
 
       //Connecting Rooms
       Room0.AddExits("east", Room1);
@@ -25,14 +27,20 @@ namespace ConsoleAdventure.Project.Models
 
       Room2.AddExits("east", Room3);
       Room2.AddExits("west", Room1);
+      Room2.AddExits("south", Death);
 
       Room3.AddExits("west", Room2);
+      Room3.AddExits("north", Trogdor);
+
+      Trogdor.AddExits("south", Room3);
 
       //Add items
-      Item Item1 = new Item("Nun-Chuck Gun", "Hmm..this is a most potent weapon..umm yeah");
+      Item Item1 = new Item("nunchuckgun", "Hmm..this is a most potent weapon..umm yeah");
+      Item Item2 = new Item("grumblecakes", "a delicious treat full of grumbly goodness...");
 
       //Item locations
       Room0.Items.Add(Item1);
+      Room3.Items.Add(Item2);
 
       CurrentRoom = Room0;
     }
@@ -44,7 +52,6 @@ namespace ConsoleAdventure.Project.Models
       Setup();
     }
 
-    //FIXME change template to show graphic (will show at start screen)
     public void GetTemplate()
     {
       System.Console.WriteLine(@"      
@@ -55,8 +62,10 @@ namespace ConsoleAdventure.Project.Models
 |  _   | |       ||    __  ||  _    ||   | |  _    ||       |  |   |  |    ___|
 | |_|   ||       ||   |  | || | |   ||   | | | |   ||   _   |  |   |  |   |___ 
 |_______||_______||___|  |_||_|  |__||___| |_|  |__||__| |__|  |___|  |_______|
-                Survive Trogdor's Layer of Doooom! and stuff...
+               
+                Survive Trogdor's Lair of Doooom! and stuff...
 
+Welcome weary type traveller, you have entered Trogdor's lair... 
 
   ");
     }
