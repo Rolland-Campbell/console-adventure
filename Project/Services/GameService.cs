@@ -22,13 +22,7 @@ namespace ConsoleAdventure.Project
         _game.CurrentRoom = _game.CurrentRoom.Exits[direction];
         Messages.Add($"You have moved to {_game.CurrentRoom.Name}");
         Messages.Add(_game.CurrentRoom.Description);
-        var items = _game.CurrentRoom.Items;
-        string templateItem = "The following items are in the room: \n";
-        foreach (var i in items)
-        {
-          templateItem += $"{i.Name}: {i.Description} \n";
-        }
-        Messages.Add(templateItem);
+
         var exits = _game.CurrentRoom.Exits;
         string template = "This room has the following exits: \n";
         foreach (var e in exits)
@@ -36,10 +30,24 @@ namespace ConsoleAdventure.Project
           template += $"{e.Key} \n";
         }
         Messages.Add(template);
+
+        if (_game.CurrentRoom.Items.Count == 0)
+        {
+          Messages.Add("There are no items in the room \n");
+          return;
+        }
+        var items = _game.CurrentRoom.Items;
+        string templateItem = "The following items are in the room: \n";
+        foreach (var i in items)
+        {
+          templateItem += $"{i.Name}: {i.Description} \n";
+        }
+        Messages.Add(templateItem);
+
       }
       else
       {
-        Messages.Add("You cannot go that way, try reading the exits or something... \n");
+        Messages.Add("You cannot go that way, try reading the exits or something geez... \n");
         var exits = _game.CurrentRoom.Exits;
         string template = "This room has the following exits: \n";
         foreach (var e in exits)
@@ -94,8 +102,13 @@ Commands:
       }
       Messages.Add(template);
 
+      if (_game.CurrentRoom.Items.Count == 0)
+      {
+        Messages.Add("There are no items in the room \n");
+        return;
+      }
       var items = _game.CurrentRoom.Items;
-      string templateItem = "The following items in the room: \n";
+      string templateItem = "The following items are in the room: \n";
       foreach (var i in items)
       {
         templateItem += $"{i.Name}: {i.Description} \n";
@@ -113,9 +126,13 @@ Commands:
     public void Reset()
     {
       _game.CurrentPlayer.Inventory.Clear();
+      _game.CurrentRoom.Items.Clear();
       _game.Setup();
     }
 
+    public void Win()
+    {
+    }
     public void Setup(string playerName)
     {
     }
@@ -141,54 +158,36 @@ Commands:
     ///</summary>
     public void UseItem(string itemName)
     {
-      Item i = new Item("", "");
-      if (_game.CurrentPlayer.Inventory.Count > 0) //check if inv has items
+      Item i = _game.CurrentPlayer.Inventory.Find(item => item.Name == itemName);
+      if (i == null)
       {
-        foreach (Item item in _game.CurrentPlayer.Inventory) //iterate through inv
-        {
-          if (item.Name == itemName) //compare typed name, with items in inv.
-          {
-            i = item;
-          }
-          if (itemName != i.Name)
-          {
-            Messages.Add($"What is a {itemName}? You do not have one of those..\n");
-          }
-        }
-        if (i.Name == "nunchuckgun")
-        {
-          _game.CurrentPlayer.Inventory.Remove(i);
-          Messages.Add($"You use your {i.Name}! It seems to have had no effect... \n");
-          Messages.Add($"Your {i.Name} falls to the floor... \n");
-          _game.CurrentRoom.Items.Add(i);
-        }
-        if (i.Name == "grumblecakes")
-        {
-          _game.CurrentPlayer.Inventory.Remove(i); //Remove from inv
-          Messages.Add($"You use your {i.Name}! \n");
-          if (_game.CurrentRoom.Trapped)
-          {
-            Messages.Add($"The mighty Trogdor is hit with {i.Description}, Trogdor winces in pain, then gives you a thumbs-up with his big BEEFY arm... and flies away.\n");
-            Messages.Add("You probably thought Trogdor would be killed...of course Trogdor can not die.. he is Trogdor! \n");
-            Messages.Add(@"
-            
-     )   )                    (       )   ________ 
-  ( /(( /(          (  (      )\ ) ( /(  |   /   / 
-  )\())\())    (    )\))(   '(()/( )\()) |  /|  /  
- ((_)((_)\     )\  ((_)()\ )  /(_)|(_)\  | / | /   
-__ ((_)((_) _ ((_) _(())\_)()(_))  _((_) |/  |/    
-\ \ / / _ \| | | | \ \((_)/ /|_ _|| \| |(   (      
- \ V / (_) | |_| |  \ \/\/ /  | | | .` |)\  )\     
-  |_| \___/ \___/    \_/\_/  |___||_|\_((_)((_)    
-                                                   
-
-            ");
-            Messages.Add("Not very original or great, or fun in any way...Oh well.. \n");
-            Messages.Add("Type q to quit, or r to restart. \n");
-          }
-        }
+        Messages.Add($"You do not seem to have a {itemName}. \n");
       }
-      else Messages.Add("Your inventory is empty. \n"); //message if inventory is empty
+
+      else if (_game.CurrentRoom.Trapped == true && itemName == "grumblecakes")
+      {
+        Messages.Add($"The mighty Trogdor is hit with { i.Description}, Trogdor winces in pain, then gives you a thumbs - up with his big BEEFY arm... and flies away.\n");
+        Messages.Add("You probably thought Trogdor would be killed...of course Trogdor can not die.. he is Trogdor! \n");
+        Messages.Add(@"
+
+             )   )                    (       )   ________ 
+          ( /(( /(          (  (      )\ ) ( /(  |   /   / 
+          )\())\())    (    )\))(   '(()/( )\()) |  /|  /  
+         ((_)((_)\     )\  ((_)()\ )  /(_)|(_)\  | / | /   
+        __ ((_)((_) _ ((_) _(())\_)()(_))  _((_) |/  |/    
+        \ \ / / _ \| | | | \ \((_)/ /|_ _|| \| |(   (      
+         \ V / (_) | |_| |  \ \/\/ /  | | | .` |)\  )\     
+          |_| \___/ \___/    \_/\_/  |___||_|\_((_)((_)          
+
+        ");
+        Messages.Add("Not very original or great, or fun in any way...Oh well.. \n");
+        _game.CurrentRoom.Description = "This room is empty, but also full of you winny-ness and glory and such...\n";
+        Messages.Add("Press r to restart the game, or q to quit. \n");
+
+      }
+      else Messages.Add($"You use your {i}! It has no effect and falls to the floor... \n");
+      _game.CurrentPlayer.Inventory.Remove(i);
+      _game.CurrentRoom.Items.Add(i);
     }
   }
 }
