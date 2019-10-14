@@ -106,6 +106,7 @@ Commands:
     public void Quit()
     {
     }
+
     ///<summary>
     ///Restarts the game 
     ///</summary>
@@ -122,32 +123,17 @@ Commands:
     ///<summary>When taking an item be sure the item is in the current room before adding it to the player inventory, Also don't forget to remove the item from the room it was picked up in</summary>
     public void TakeItem(string itemName)
     {
-      Item i = new Item("", ""); //created instance
-      if (_game.CurrentRoom.Items.Count > 0) //checked if items are in room
+      Item i = _game.CurrentRoom.Items.Find(item => item.Name == itemName); //searches room items for typed item. Compare typed name, with item names in room list.
+      if (i == null)
       {
-        foreach (Item item in _game.CurrentRoom.Items) //iterate through items in room
-        {
-          if (item.Name == itemName) //compare typed name, with item names in room list.
-          {
-            i = item;
-          }
-          else
-          {
-            Messages.Add("That item is not in this room \n"); //if typed name is incorrect
-          }
-        }
-        if (i.Name.Length > 1)
-        {
-          _game.CurrentPlayer.Inventory.Add(i); //add item to inventory
-          Messages.Add($"You picked up a {i.Name} \n");
-          _game.CurrentRoom.Items.Remove(i); //Remove from room list
-        }
+        Messages.Add("That item is not in this room \n"); //if typed name is incorrect
+        return;
       }
-      else
-      {
-        Messages.Add("There are no items to take... \n");
-      }
+      _game.CurrentPlayer.Inventory.Add(i); //add item to inventory
+      Messages.Add($"You picked up a {i.Name} \n");
+      _game.CurrentRoom.Items.Remove(i); //Remove from room list
     }
+
     ///<summary>
     ///No need to Pass a room since Items can only be used in the CurrentRoom
     ///Make sure you validate the item is in the room or player inventory before
@@ -164,7 +150,7 @@ Commands:
           {
             i = item;
           }
-          if (itemName != item.Name)
+          if (itemName != i.Name)
           {
             Messages.Add($"What is a {itemName}? You do not have one of those..\n");
           }
@@ -172,7 +158,7 @@ Commands:
         if (i.Name == "nunchuckgun")
         {
           _game.CurrentPlayer.Inventory.Remove(i);
-          Messages.Add($"You use your {i.Name}! \n");
+          Messages.Add($"You use your {i.Name}! It seems to have had no effect... \n");
           Messages.Add($"Your {i.Name} falls to the floor... \n");
           _game.CurrentRoom.Items.Add(i);
         }

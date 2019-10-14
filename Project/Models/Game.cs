@@ -14,10 +14,10 @@ namespace ConsoleAdventure.Project.Models
       //Creating Rooms
       IRoom Room0 = new Room("Cave Enterance", "You are at the front of the cave... where else would you be <grumble>", false);
       IRoom Room1 = new Room("some kinda hallway \n", "it has walls and stuff..you know dungeony looking.. maybe with some kinda... bats and stuff \n", false);
-      IRoom Room2 = new Room("Another Hallway!?!? \n", "it looks kind of like the last hallway.. not very original I would say..who wrote this?? \n", false);
+      IRoom Room2 = new Room("Another Hallway!?!? \n", "it looks kind of like the last hallway.. not very original I would say..who wrote this?? \n At least there one other door you could choose.. \n", false);
       IRoom Death = new Room("The Room of Doooom!! \n", "This room is filled with Trogdor's mighty burninating flame!! \n \n You are burninated!! \n \n You died...press r to restart \n", false);
       IRoom Room3 = new Room("Oh look another dungeony hallway \n", "wow more bats... and is THAT a spider... how original... \n", false);
-      IRoom Trogdor = new Room("Trogdor's Lair \n", "You have entered the lair of the mighty Trogdor! Behold his majesticness.. and his big BEEFY arm \n", true);
+      IRoom Trogdor = new Room("Trogdor's Lair \n", "You have entered the lair of the mighty Trogdor! Behold his majesticness.. and his big BEEFY arm \n Trogdor is busy burning the peoples.. and their thatch-roof cottages!!! \n", true);
 
       //Connecting Rooms
       Room0.AddExits("east", Room1);
@@ -65,6 +65,41 @@ namespace ConsoleAdventure.Project.Models
                
                 Survive Trogdor's Lair of Doooom! and stuff...
 
+                                                                          
+                      ..,                   ,;,                            
+                       i;.                    .;                           
+                       ;  ,;:.               ,;,;                          
+       ,i::           .;..:;,:               :::,                          
+   .,;;, ;            ,..  :;,         ;       ;                           
+    ,:    ,,         ,, .:i        ,  :.      .;                           
+      ::.  .;.      ,:;.           .: ;                                    
+        .;.; .i.  ,;;;::::;;;:.    ;,1.1   ,;,                             
+          ,:::;:;.              .;;::;;:;;;;;:,                            
+              ;.                              ;      .:;:..;,     ....     
+       ,;;;;                        :,....   ,; .::..;;..;;:,.     ,;.     
+    ,;.       ;          :    .;;.   :1:;,;:,;  .;:..i:::,.     ::         
+   .:       .: ;.        .:       ,;,  .,;11:        ,i,.             .;;: 
+   ,,       i.  ;;        .;          :;::,,;  ,:::..1;:i:       .;;,      
+    ;   .,,   .;. .;.  ,,:;..;.                  :.  :;i        .::::;;,   
+   ;.    :;;::       .;:. .i,;:,;.                .;            ,::;:;;:,  
+   .;, ;   .;             :;.     .;,               :.         .;;,        
+    .;. :;, ,:               .;.     .;.             .: ..  ;1;,.   .;;.   
+       ::   ,,.                 ,:      ;.             :.:,;, ,;.   .,::,  
+         .i .,if.                 ;      :,             .i;. .::.:,        
+          :.   .i                 :       ;               .;     .:.       
+           .,,.                   ;       :                                
+                            ,,   .:      .:                                
+                         .  .:  ,i       ;                                 
+                     :,  ;:  .:,:      ,:                                  
+                ;i.  :,, ; :,,;      ,:                                    
+                  :;;i::;;;:.     .;,                                      
+                     .:,:,...:;;;.                                         
+                         ,.   ;                                            
+                         ;    ;                                            
+                         ;    ;                                            
+                        .,    :;:.                                         
+                        :.                                                 
+                                                                    
 Welcome weary type traveller, you have entered Trogdor's lair... 
 
   ");

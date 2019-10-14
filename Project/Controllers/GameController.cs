@@ -13,10 +13,13 @@ namespace ConsoleAdventure.Project.Controllers
     //NOTE Makes sure everything is called to finish Setup and Starts the Game loop
     public void Run()
     {
+      //REVIEW find a way to force restart or quit
+      // _gameService.Playing
       while (true)
       {
         GetUserInput();
       }
+
     }
 
     //NOTE Gets the user input, calls the appropriate command, and passes on the option if needed.
@@ -87,6 +90,9 @@ Commands:
     ");
           break;
       }
+      //REVIEW clean up the clear and print for each case
+      // Console.Clear();
+      // Print();
     }
 
     //NOTE this should print your messages for the game.
