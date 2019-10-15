@@ -23,13 +23,20 @@ namespace ConsoleAdventure.Project
         Messages.Add($"You have moved to {_game.CurrentRoom.Name}");
         Messages.Add(_game.CurrentRoom.Description);
 
+        if (_game.CurrentRoom.Dead == true)
+        {
+          Dead();
+          return;
+        }
+
         var exits = _game.CurrentRoom.Exits;
-        string template = "This room has the following exits: \n";
+        string template = "";
         foreach (var e in exits)
         {
           template += $"{e.Key} \n";
         }
-        Messages.Add(template);
+        Messages.Add("This room has the following exits: \n" + template);
+
 
         if (_game.CurrentRoom.Items.Count == 0)
         {
@@ -116,6 +123,49 @@ Commands:
       Messages.Add(templateItem);
     }
 
+    public void Dead()
+    {
+      Messages.Add(@"You dared, and You were burninated!! 
+                                                                           
+                      ..,                   ,;,                            
+                       i;.                    .;                           
+                       ;  ,;:.               ,;,;                          
+       ,i::           .;..:;,:               :::,                          
+   .,;;, ;            ,..  :;,         ;       ;                           
+    ,:    ,,         ,, .:i        ,  :.      .;                           
+      ::.  .;.      ,:;.           .: ;                                    
+        .;.; .i.  ,;;;::::;;;:.    ;,1.1   ,;,                             
+          ,:::;:;.              .;;::;;:;;;;;:,                            
+              ;.                              ;      .:;:..;,     ....     
+       ,;;;;                        :,....   ,; .::..;;..;;:,.     ,;.     
+    ,;.       ;          :    .;;.   :1:;,;:,;  .;:..i:::,.     ::         
+   .:       .: ;.        .:       ,;,  .,;11:        ,i,.             .;;: 
+   ,,       i.  ;;        .;          :;::,,;  ,:::..1;:i:       .;;,      
+    ;   .,,   .;. .;.  ,,:;..;.                  :.  :;i        .::::;;,   
+   ;.    :;;::       .;:. .i,;:,;.                .;            ,::;:;;:,  
+   .;, ;   .;             :;.     .;,               :.         .;;,        
+    .;. :;, ,:               .;.     .;.             .: ..  ;1;,.   .;;.   
+       ::   ,,.                 ,:      ;.             :.:,;, ,;.   .,::,  
+         .i .,if.                 ;      :,             .i;. .::.:,        
+          :.   .i                 :       ;               .;     .:.       
+           .,,.                   ;       :                                
+                            ,,   .:      .:                                
+                         .  .:  ,i       ;                                 
+                     :,  ;:  .:,:      ,:                                  
+                ;i.  :,, ; :,,;      ,:      )   )          (    (      (      
+                  :;;i::;;;:.     .;,      ( /(( /(          )\ ) )\ )   )\ )  
+                     .:,:,...:;;;.         )\())\())    (   (()/((()/(( (()/(  
+                         ,.   ;           ((_)((_)\     )\   /(_))/(_))\ /(_))  
+                         ;    ;          __ ((_)((_) _ ((_) (_))_(_))((_|_))_   
+                         ;    ;          \ \ / / _ \| | | |  |   \_ _| __|   \  
+                        .,    :;:.        \ V / (_) | |_| |  | |) | || _|| |) | 
+                        :.                 |_| \___/ \___/   |___/___|___|___/ 
+                                                                               
+                    Press r to restart or q to quit
+      ");
+      _game.CurrentRoom.Exits.Clear();
+      _game.CurrentPlayer.Inventory.Clear();
+    }
     public void Quit()
     {
     }
